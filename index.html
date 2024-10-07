@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CV Builder</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
+        }
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            background-color: rgba(0,0,0,0.7);
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: background 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .main {
+            margin-left: 250px;
+            padding: 20px;
+            height: 100%;
+            overflow-y: auto;
+            background-color: rgba(255,255,255,0.8);
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        h2 {
+            color: #333;
+        }
+        form input, form textarea, form select, form button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #overview {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        #overview h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .bg-upload {
+            margin-bottom: 20px;
+        }
+        .bg-upload input {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#" onclick="showSection('home')">Home</a>
+        <a href="#" onclick="showSection('personal')">Personal Information</a>
+        <a href="#" onclick="showSection('education')">Education</a>
+        <a href="#" onclick="showSection('work')">Work Experience</a>
+        <a href="#" onclick="showSection('skills')">Skills</a>
+        <a href="#" onclick="showSection('projects')">Projects</a>
+        <a href="#" onclick="showSection('contact')">Contact Form</a>
+        <a href="#" onclick="showSection('overview')">Overview</a>
+    </div>
+
+    <div class="main">
+        <!-- Home Section -->
+        <div id="home" class="section active">
+            <h2>Welcome to Your CV Builder</h2>
+            <p>CREATE AND MANAGE THE CV OF THAPELO MOTLOUTSE. NAVIGATE THROUGH THE SECTIONS USING THE SIDEBAR TO INPUT YOUR DETAILS.</p>
+            <div class="bg-upload">
+                <label for="bgInput">Change Background Image:</label>
+                <input type="file" id="bgInput" accept="image/*" onchange="changeBackground(event)">
+            </div>
+        </div>
+
+        <!-- Personal Information Section -->
+        <div id="personal" class="section">
+            <h2>Personal Information</h2>
+            <form id="personalForm">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" required>
+
+                <label for="bio">Short Bio:</label>
+                <textarea id="bio" rows="4" required></textarea>
+
+                <button type="button" onclick="saveData('personalForm')">Save</button>
+            </form>
+        </div>
+
+        <!-- Education Section -->
+        <div id="education" class="section">
+            <h2>Education</h2>
+            <form id="educationForm">
+                <label for="school">School/University:</label>
+                <input type="text" id="school" required>
+
+                <label for="degree">Degree:</label>
+                <input type="text" id="degree" required>
+
+                <label for="field">Field of Study:</label>
+                <input type="text" id="field" required>
+
+                <label for="eduStart">Start Year:</label>
+                <input type="number" id="eduStart" required>
+
+                <label for="eduEnd">End Year:</label>
+                <input type="number" id="eduEnd" required>
+
+                <button type="button" onclick="saveData('educationForm')">Save</button>
+            </form>
+        </div>
+
+        <!-- Work Experience Section -->
+        <div id="work" class="section">
+            <h2>Work Experience</h2>
+            <form id="workForm">
+                <label for="company">Company:</label>
+                <input type="text" id="company" required>
+
+                <label for="position">Position:</label>
+                <input type="text" id="position" required>
+
+                <label for="workStart">Start Date:</label>
+                <input type="month" id="workStart" required>
+
+                <label for="workEnd">End Date:</label>
+                <input type="month" id="workEnd" required>
+
+                <label for="workDesc">Description:</label>
+                <textarea id="workDesc" rows="4" required></textarea>
+
+                <button type="button" onclick="saveData('workForm')">Save</button>
+            </form>
+        </div>
+
+        <!-- Skills Section -->
+        <div id="skills" class="section">
+            <h2>Skills</h2>
+            <form id="skillsForm">
+                <label for="skillsInput">Enter your skills (separated by commas):</label>
+                <input type="text" id="skillsInput" required>
+
+                <button type="button" onclick="saveData('skillsForm')">Save</button>
+            </form>
+        </div>
+
+        <!-- Projects Section -->
+        <div id="projects" class="section">
+            <h2>Projects</h2>
+            <form id="projectsForm">
+                <label for="projectName">Project Name:</label>
+                <input type="text" id="projectName" required>
+
+                <label for="projectDesc">Project Description:</label>
+                <textarea id="projectDesc" rows="4" required></textarea>
+
+                <button type="button" onclick="saveData('projectsForm')">Save</button>
+            </form>
+        </div>
+
+        <!-- Contact Form Section -->
+        <div id="contact" class="section">
+            <h2>Contact Form</h2>
+            <form id="contactForm">
+                <label for="contactName">Your Name:</label>
+                <input type="text" id="contactName" required>
+
+                <label for="contactEmail">Your Email:</label>
+                <input type="email" id="contactEmail" required>
+
+                <label for="message">Message:</label>
+                <textarea id="message" rows="4" required></textarea>
+
+                <button type="button" onclick="saveData('contactForm')">Send</button>
+            </form>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="section">
+            <h2>CV Overview</h2>
+            <div id="overviewContent">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to show a specific section
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            if (sectionId === 'overview') {
+                populateOverview();
+            }
+        }
+
+        // Function to save form data to localStorage
+        function saveData(formId) {
+            const form = document.getElementById(formId);
+            const inputs = form.querySelectorAll('input, textarea');
+            let data = {};
+            inputs.forEach(input => {
+                data[input.id] = input.value;
+            });
+            localStorage.setItem(formId, JSON.stringify(data));
+            alert('Data saved successfully!');
+        }
+
+        // Function to load form data from localStorage
+        function loadData(formId) {
+            const data = JSON.parse(localStorage.getItem(formId));
+            if (data) {
+                const form = document.getElementById(formId);
+                const inputs = form.querySelectorAll('input, textarea');
+                inputs.forEach(input => {
+                    if (data[input.id]) {
+                        input.value = data[input.id];
+                    }
+                });
+            }
+        }
+
+        // Function to populate all forms on page load
+        function populateForms() {
+            const forms = ['personalForm', 'educationForm', 'workForm', 'skillsForm', 'projectsForm', 'contactForm'];
+            forms.forEach(formId => loadData(formId));
+            // Load background image
+            const bg = localStorage.getItem('backgroundImage');
+            if (bg) {
+                document.body.style.backgroundImage = `url(${bg})`;
+            }
+        }
+
+        // Function to change background image
+        function changeBackground(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const dataURL = e.target.result;
+                    document.body.style.backgroundImage = `url(${dataURL})`;
+                    localStorage.setItem('backgroundImage', dataURL);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Function to populate the overview section
+        function populateOverview() {
+            const overview = document.getElementById('overviewContent');
+            overview.innerHTML = ''; // Clear previous content
+
+            // Personal Information
+            const personal = JSON.parse(localStorage.getItem('personalForm'));
+            if (personal) {
+                const personalDiv = document.createElement('div');
+                personalDiv.innerHTML = `
+                    <h3>Personal Information</h3>
+                    <p><strong>Name:</strong> ${personal.name}</p>
+                    <p><strong>Email:</strong> ${personal.email}</p>
+                    <p><strong>Phone:</strong> ${personal.phone}</p>
+                    <p><strong>Bio:</strong> ${personal.bio}</p>
+                `;
+                overview.appendChild(personalDiv);
+            }
+
+            // Education
+            const education = JSON.parse(localStorage.getItem('educationForm'));
+            if (education) {
+                const eduDiv = document.createElement('div');
+                eduDiv.innerHTML = `
+                    <h3>Education</h3>
+                    <p><strong>School:</strong> ${education.school}</p>
+                    <p><strong>Degree:</strong> ${education.degree}</p>
+                    <p><strong>Field of Study:</strong> ${education.field}</p>
+                    <p><strong>Duration:</strong> ${education.eduStart} - ${education.eduEnd}</p>
+                `;
+                overview.appendChild(eduDiv);
+            }
+
+            // Work Experience
+            const work = JSON.parse(localStorage.getItem('workForm'));
+            if (work) {
+                const workDiv = document.createElement('div');
+                workDiv.innerHTML = `
+                    <h3>Work Experience</h3>
+                    <p><strong>Company:</strong> ${work.company}</p>
+                    <p><strong>Position:</strong> ${work.position}</p>
+                    <p><strong>Duration:</strong> ${work.workStart} - ${work.workEnd}</p>
+                    <p><strong>Description:</strong> ${work.workDesc}</p>
+                `;
+                overview.appendChild(workDiv);
+            }
+
+            // Skills
+            const skills = JSON.parse(localStorage.getItem('skillsForm'));
+            if (skills) {
+                const skillsDiv = document.createElement('div');
+                skillsDiv.innerHTML = `
+                    <h3>Skills</h3>
+                    <p>${skills.skillsInput.split(',').map(skill => `<span style="background-color:#ddd; padding:5px; margin:2px; border-radius:3px;">${skill.trim()}</span>`).join(' ')}</p>
+                `;
+                overview.appendChild(skillsDiv);
+            }
+
+            // Projects
+            const projects = JSON.parse(localStorage.getItem('projectsForm'));
+            if (projects) {
+                const projDiv = document.createElement('div');
+                projDiv.innerHTML = `
+                    <h3>Projects</h3>
+                    <p><strong>Name:</strong> ${projects.projectName}</p>
+                    <p><strong>Description:</strong> ${projects.projectDesc}</p>
+                `;
+                overview.appendChild(projDiv);
+            }
+
+            // Contact Form
+            const contact = JSON.parse(localStorage.getItem('contactForm'));
+            if (contact) {
+                const contactDiv = document.createElement('div');
+                contactDiv.innerHTML = `
+                    <h3>Contact Message</h3>
+                    <p><strong>Name:</strong> ${contact.contactName}</p>
+                    <p><strong>Email:</strong> ${contact.contactEmail}</p>
+                    <p><strong>Message:</strong> ${contact.message}</p>
+                `;
+                overview.appendChild(contactDiv);
+            }
+        }
+
+        // Initialize forms on page load
+        window.onload = populateForms;
+    </script>
+</body>
+</html>
